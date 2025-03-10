@@ -5,11 +5,13 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    router.push("/login");
   };
 
   return (
-    <nav style={{ display: "flex", justifyContent: "center" }}>
-      <button onClick={handleLogout}>Cerrar sesión</button>
+    <nav className="navbar">
+        <h1>S2G Energy</h1>
+      <button className="button-logout" onClick={handleLogout}>Cerrar sesión</button>
     </nav>
   );
 }

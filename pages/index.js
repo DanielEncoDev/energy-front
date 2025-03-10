@@ -12,11 +12,16 @@ export default function Home() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
+
+    if (token) {
+      router.push("/dashboard");
+    }
   }, []);
 
   return (
-    <div className = "flex flex-col items-center justify-center h-screen">
-        <LoginForm  />
+    <div className="container">
+      <h1>Iniciar Sesión</h1>
+      <LoginForm />
     </div>
   );
 }

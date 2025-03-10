@@ -19,15 +19,16 @@ export default function LoginForm() {
     });
    
     try {
-        const response = await axios.post("http://127.0.0.1:8000/login", body, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}stations`, body, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
         });
+        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.access_token}`;
+        localStorage.setItem("token", response.data.access_token);
+        router.push("/dashboard");
     
         console.log("Respuesta:", response.data);
-        localStorage.setItem("token", response.data.token);
-        router.push("/dashboard");
       } catch (error) {
         console.error("Error en la solicitud:", error);
         return null;
@@ -35,12 +36,11 @@ export default function LoginForm() {
   };
 
   return (
-    <div >
-      <h2>Login </h2>
+    <div className="login-form">
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" , gap: "1rem"}}>
-        <input type="text" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Iniciar sesión</button>
+        <input className="input" type="text" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input className="input" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button className="btn-confirm" type="submit">Iniciar sesión</button>
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
